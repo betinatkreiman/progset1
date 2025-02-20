@@ -1,5 +1,6 @@
 import datastructures as ds
 import numpy as np
+import graphs as gs
 
 def prims(g, w, s):
   d = np.full(len(g), 1000000000)
@@ -38,5 +39,5 @@ def kruskals(g,w):
   for (i,j) in sort_w:
     if dus.find(i) != dus.find(j):
       X.add((i,j))
-      dus.unionSets(i,j)
+      dus.union(i,j)
   return X
