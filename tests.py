@@ -1,5 +1,5 @@
 import graphs as gs
-import algorithms as alg
+import algorithms as algs
 import random
 
 def graph_test(gfn):
@@ -26,7 +26,7 @@ def prim_spanning_test(gfn):
         for j in range(10, 50):
             graph, weight = gfn(i)
             source = random.randint(0, j-1)
-            d, prev = alg.prims(graph, weight, 0)
+            d, prev = algs.prims(graph, weight, 0)
     return -1
 
 def kruskal_spanning_test(gfn):
@@ -39,7 +39,7 @@ def kruskal_spanning_test(gfn):
             # V = set of vertices included in X
             V = set()
             graph, weight = gfn(j)
-            X = alg.kruskals(graph, weight)
+            X = algs.kruskals(graph, weight)
             for (u,v) in X:
                 V.add(u)
                 V.add(v)
