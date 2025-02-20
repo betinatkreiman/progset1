@@ -48,21 +48,60 @@ def uniformly(n):
 
   for i in range(n):
     for j in range(n):
-      if i != j:
-        x = np.random.uniform(0, 1)
-        y = np.random.uniform(0, 1)
-        w = np.sqrt((x - i)**2 + (y - j)**2)
-        edges[(i,j)] = w
-        edges[(j,i)] = w
-    else: 
-       graph[i][j] = 0
+        if i != j:
+            x = np.random.uniform(0, 1)
+            y = np.random.uniform(0, 1)
+            w = np.sqrt((x - i)**2 + (y - j)**2)
+            edges[(i,j)] = w
+            edges[(j,i)] = w
+        else: 
+            graph[i][j] = 0
 
   return graph, edges
 
-def graph_cube(n):
+# Complete graphs on n vertices, where the vertices are points chosen uniformly 
+# at random inside the unit cube (3 dimensions) and hypercube (4 dimensions).
+# As with the unit square case above, the weight of an edge is 
+# just the Euclidean distance between its endpoints.
+def graph_cube3(n):
     # input: int n (number of vertices)
-    # output: adj. matrix of complete graph, 
-    #         adj. matrix of weights, chosen uniformly at random in [0,1]
-    graph = 0
-    weight = 0
+    # output: adj. matrix of graph, dict of weights
+    graph = np.ones((n, n))
+    weight = {}
+    for i in range(n):
+        x1 = np.random.uniform(0, 1)
+        y1 = np.random.uniform(0, 1)
+        z1 = np.random.uniform(0, 1)
+        for j in range(i, n):
+            if i != j:
+                x2 = np.random.uniform(0, 1)
+                y2 = np.random.uniform(0, 1)
+                z2 = np.random.uniform(0, 1)
+                dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+            else:
+                graph[i][j] = 0
+    return graph, weight
+def graph_cube4(n):
+    # input: int n (number of vertices)
+    # output: adj. matrix of graph, dict of weights
+    graph = np.ones((n, n))
+    weight = {}
+    for i in range(n):
+        w1 = random.uniform(0,1)
+        x1 = random.uniform(0, 1)
+        y1 = random.uniform(0, 1)
+        z1 = random.uniform(0, 1)
+        for j in range(i, n):
+            if i != j:
+                w2 = random.uniform(0, 1)
+                x2 = random.uniform(0, 1)
+                y2 = random.uniform(0, 1)
+                z2 = random.uniform(0, 1)
+                dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+            else:
+                graph[i][j] = 0
     return graph, weight

@@ -7,12 +7,13 @@ def graph_test(fn):
         graph, weight = fn(i)
         for v in range(i):
             for w in range(i):
-                if (graph[v][w] != 1) and (v != w):
-                    raise ValueError("Not a complete graph")
-                if weight[(v,w)] != weight[(w,v)]:
-                    raise ValueError("Graph is not undirected")
+                if v != w:
+                    if (graph[v][w] != 1):
+                        raise ValueError("Not a complete graph")
+                    if weight[(v,w)] != weight[(w,v)]:
+                        raise ValueError("Graph is not undirected")
     print("graph_test passsed")
     return
 
 # run tests
-graph_test(g.graph_basic)
+graph_test(g.graph_cube4)
