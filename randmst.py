@@ -66,13 +66,15 @@ def make_time_plot(name, ts, ns):
   plt.show()
 
 def make_weights_plot(name):
-  for i in range(10, 50):
+  for i in range(1, 12):
     # change to do by powers of 2
-    max = max_weight_k(graph_fxns[dimension], i, numtrials)
+    # this plots the max edge weight in the mst
+    max = max_weight_k(graph_fxns[dimension], 2**i, numtrials)
     plt.scatter(i, max, c='b')
 
-  plt.xlabel('n vertices')
-  plt.ylabel('Avg. MST weight (s)')
+  plt.xlabel('2^x vertices')
+  plt.ylabel('Av.g max MST weight')
   plt.title(name)
 
   plt.show()
+make_weights_plot("max!")

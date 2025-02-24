@@ -43,21 +43,21 @@ def hypercube(n):
 # a real number chosen uniformly at random from [0, 1].) The weight of an edge is
 # just the Euclidean distance between its endpoints.
 def uniformly(n):
-  graph = np.ones((n, n))
-  edges = {}
-
-  for i in range(n):
-    for j in range(n):
-        if i != j:
-            x = np.random.uniform(0, 1)
-            y = np.random.uniform(0, 1)
-            w = np.sqrt((x - i)**2 + (y - j)**2)
-            edges[(i,j)] = w
-            edges[(j,i)] = w
-        else: 
-            graph[i][j] = 0
-
-  return graph, edges
+    graph = np.ones((n, n))
+    weight = {}
+    for i in range(n):
+        x1 = np.random.uniform(0, 1)
+        y1 = np.random.uniform(0, 1)
+        for j in range(i, n):
+            if i != j:
+                x2 = np.random.uniform(0, 1)
+                y2 = np.random.uniform(0, 1)
+                dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+            else:
+                graph[i][j] = 0
+    return graph, weight
 
 # Complete graphs on n vertices, where the vertices are points chosen uniformly 
 # at random inside the unit cube (3 dimensions) and hypercube (4 dimensions).
