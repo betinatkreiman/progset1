@@ -83,6 +83,7 @@ def graph_cube3(n):
             else:
                 graph[i][j] = 0
     return graph, weight
+
 def graph_cube4(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph, dict of weights

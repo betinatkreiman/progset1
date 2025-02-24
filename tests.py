@@ -1,6 +1,13 @@
 import graphs as gs
 import algorithms as algs
 import random
+import datastructures as ds
+import numpy as np
+
+def union_find_test():
+    dus10a = ds.DisjointUnionSets(5)
+    for i in range(5):
+        assert dus10a.parent[i] == i, "initialized paretns wrong"
 
 def graph_test(gfn):
     # takes in a graph function and ensures the output is 
@@ -38,8 +45,8 @@ def kruskal_spanning_test(gfn):
         for j in range(10, 50):
             # V = set of vertices included in X
             V = set()
-            graph, weight = gfn(j)
-            X = algs.kruskals(graph, weight)
+            g, w = gfn(j)
+            X, _ = algs.kruskals(g, w)
             for (u,v) in X:
                 V.add(u)
                 V.add(v)
@@ -51,5 +58,21 @@ def kruskal_spanning_test(gfn):
     print("kruskal spanning test passed")
     return
 
+def kruskal_mst_weight(gfn):
+    # test if the weight of the mst is <= total weight of graph
+    for _ in range(10): 
+        for j in range(1, 50):
+            g,w = gfn(j)
+            _, mstweight = algs.kruskals(g,w)
+            total_w = sum(w.values())
+            if total_w < mstweight:
+                raise ValueError("mst is too big kruskal")
+    print("kruskal mst weight passed")
+
 # run tests
-kruskal_spanning_test(gs.graph_cube4)
+union_find_test()
+for graph in [gs.graph_basic, gs.graph_cube3, gs.graph_cube4]:
+    graph_test(graph)
+    # prim_spanning_test(graph)
+    kruskal_spanning_test(graph)
+    kruskal_mst_weight(graph)

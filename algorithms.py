@@ -31,6 +31,7 @@ def kruskals(g,w):
   # w = dictionary
   # g = adj. matrix
   X = set()
+  mstweight = 0
   # create set for each vertex; assuming vertices are numbered 0 to n-1
   vertex_count = len(g)
   dus = ds.DisjointUnionSets(vertex_count)
@@ -40,4 +41,6 @@ def kruskals(g,w):
     if dus.find(i) != dus.find(j):
       X.add((i,j))
       dus.union(i,j)
-  return X
+      mstweight += sort_w[(i,j)]
+      last_edge = (i,j)
+  return X, mstweight, sort_w[last_edge]

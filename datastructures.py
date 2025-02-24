@@ -1,27 +1,29 @@
-class DisjointUnionSets:
-    # idea: have a list of n elements where n is the number of vertices in the graph
-    # the value at each index i indicates which set vertx i belongs to
-    # thus, each vertex can only belong to one set and initially each is its own set
-    def __init__ (self, n):
-       # create a collection of n disjoint sets where n = number of vertices in graph
-       self.collection = list(range(n))
-       self.len = n
+import numpy as np
 
-    def find(self, v):
-       # find set containing vertex v and return name
-       return self.collection[v]
-    
-    def union(self, u, v):
-       # merge set containing u and set containing v
-       u_set = self.find(u)
-       v_set = self.find(v)
-       # if the sets are the same, just return that one
-       if u_set == v_set:
-          return u_set
-       # if they are disjoint, merge
-       for i in range(self.len):
-            if self.collection[i] == v_set:
-               self.collection[i] = u_set
+class DisjointUnionSets:
+   def __init__ (self, n):
+      self.rank = np.zeros(n)
+      self.parent = np.arange(0,n)
+   
+   def find(self, x):
+      p = self.parent[x]
+      if p == x:
+         return x
+      else:
+         return self.find(p)
+   
+   def link(self, x, y):
+      rank_x = self.rank[x]
+      rank_y = self.rank[y]
+      if rank_x > rank_y:
+         self.rank[x],self.rank[y] = rank_y, rank_x
+      if rank_x == rank_y:
+         self.rank[y] += 1
+      self.parent[x] = y
+   
+   def union(self, x, y):
+      self.link(self.find(x), self.find(y))
+
 
 def betina_heap(diction):
   min_val = list(diction.values())[0]
