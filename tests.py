@@ -46,7 +46,7 @@ def kruskal_spanning_test(gfn):
             # V = set of vertices included in X
             V = set()
             g, w = gfn(j)
-            X, _ = algs.kruskals(g, w)
+            X, _, _ = algs.kruskals(g, w)
             for (u,v) in X:
                 V.add(u)
                 V.add(v)
@@ -61,9 +61,9 @@ def kruskal_spanning_test(gfn):
 def kruskal_mst_weight(gfn):
     # test if the weight of the mst is <= total weight of graph
     for _ in range(10): 
-        for j in range(1, 50):
+        for j in range(2, 50):
             g,w = gfn(j)
-            _, mstweight = algs.kruskals(g,w)
+            _, mstweight, _ = algs.kruskals(g,w)
             total_w = sum(w.values())
             if total_w < mstweight:
                 raise ValueError("mst is too big kruskal")

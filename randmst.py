@@ -22,8 +22,8 @@ def avg_weight_k(type_graph, n, trials):
     _, mstweight, _ = algs.kruskals(g, w)
     avg += mstweight
   return (avg / trials)
-#avg = avg_weight_k(graph_fxns[dimension], numpoints, numtrials)
-#print(avg, numpoints, numtrials, dimension)
+avg = avg_weight_k(graph_fxns[dimension], numpoints, numtrials)
+print(avg, numpoints, numtrials, dimension)
 
 def max_weight_k(type_graph, n, trials):
   max = 0
@@ -76,4 +76,3 @@ def make_weights_plot(name):
   plt.title(name)
 
   plt.show()
-make_weights_plot("max!")
