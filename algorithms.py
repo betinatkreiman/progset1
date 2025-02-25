@@ -3,7 +3,8 @@ import numpy as np
 import graphs as gs
 
 def prims(g, w, s):
-  d = np.full(len(g), float('inf'))
+  n = len(g)
+  d = np.full(n, float('inf'))
   S = {}
   #H = vertices to explore
   H = ds.Heap()
@@ -16,22 +17,21 @@ def prims(g, w, s):
   while H.heap != []:
     # extract min vertex in H
     min_node, min_weight = H.extractmin()
-    u = (min_node, min_weight)
 
     # add min vertex to S
-    S[u[0]] = u[1]
+    S[min_node] = min_weight
     # loop over edges of min vertex
-    for i in range(len(g[u[0]])):
-      if g[u[0]][i] == 1:
+    for i in range(n):
+      if g[min_node][i] == 1:
           if i not in S:
-            u_val = int(u[0])
-
+            u_val = min_node
             v_val = i
-
-            if d[v_val] > w[(u_val, v_val)]:
-              d[v_val] = w[(u_val, v_val)]
+            w_uv = w[(u_val, v_val)]
+            
+            if d[v_val] > w_uv:
+              d[v_val] = w_uv
               prev[v_val] = u_val
-              H.insert(v_val, w[(u_val, v_val)])
+              H.insert(v_val, w_uv)
 
   mst_weight = 0
   max = 0
