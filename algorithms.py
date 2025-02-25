@@ -5,27 +5,38 @@ import graphs as gs
 def prims(g, w, s):
   d = np.full(len(g), 1000000000)
   S = {}
-  H = []
+  H = {}
   prev = {s: None}
   d[s] = 0
   H = {s:0}
 
-  while H != []:
-    min_val, _ = ds.betina_heap(H)
+  while H != {}:
+    #print(H)
+    min_val, min_index = ds.betina_heap(H)
 
     u = (min_val, H.pop(min_val))
+
+    #print(u)
     S[u[0]] = u[1]
 
     for i in range(len(g[u[0]])):
+      #print("HELLO", g[u[0]])
       if g[u[0]][i] == 1:
         u_val = int(u[0])
-        v_val = int(g[u[0]][i])
+        #print("maybe v val", g[u[0]])
+        #v_val = int(g[u[0]][i])
+        v_val = i
 
         if d[v_val] > w[(u_val, v_val)]:
           d[v_val] = w[(u_val, v_val)]
           prev[v_val] = u_val
           H[v_val] = w[(u_val, v_val)]
-    return d, prev
+  mst_weight = 0
+  max = 0
+  for v in S.values():
+    if v > max: max = v
+    mst_weight += v
+  return d, prev, mst_weight, max
 
 def kruskals(g,w):
   # w = dictionary

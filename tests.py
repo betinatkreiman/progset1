@@ -7,7 +7,16 @@ import numpy as np
 def union_find_test():
     dus10a = ds.DisjointUnionSets(5)
     for i in range(5):
-        assert dus10a.parent[i] == i, "initialized paretns wrong"
+        assert dus10a.parent[i] == i, "initialized parents failed"
+    dus10a.union(0,2)
+    assert (np.array_equal(dus10a.parent, np.array([2,1,2,3,4]))), "basic union failed"
+    dus10a.union(2,3)
+    assert (np.array_equal(dus10a.parent, np.array([2,1,2,2,4]))), "second union failed"
+    dus10a.union(1,4)
+    dus10a.union(2,4)
+    assert (np.array_equal(dus10a.parent, np.array([2,4,4,2,4]))), "union trees failed"
+    print("union tests passed")
+
 
 def graph_test(gfn):
     # takes in a graph function and ensures the output is 

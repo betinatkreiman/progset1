@@ -16,7 +16,7 @@ class DisjointUnionSets:
       rank_x = self.rank[x]
       rank_y = self.rank[y]
       if rank_x > rank_y:
-         self.rank[x],self.rank[y] = rank_y, rank_x
+         x, y = y, x
       if rank_x == rank_y:
          self.rank[y] += 1
       self.parent[x] = y
