@@ -26,7 +26,7 @@ def graph_basic_faster(n):
     # decide edges to ignore
     cut_off = float('inf')
     if n > 10:
-        cut_off = 1/np.sqrt(n - 10)
+        cut_off = 1/((n - 10)**(5/9))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         graph[v][v] = 0
@@ -49,7 +49,7 @@ def graph_basic_adj_list(n):
     # decide edges to ignore
     cut_off = float('inf')
     if n > 10:
-        cut_off = 1/np.sqrt(n - 10)
+        cut_off = 1/((n - 10)**(5/9))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         for edge in range(v+1, n):
@@ -138,6 +138,35 @@ def graph_cube3(n):
                 dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
                 weight[(i,j)] = dist
                 weight[(j,i)] = dist
+            else:
+                graph[i][j] = 0
+    return graph, weight
+                                
+def graph_cube3_faster(n):
+    # input: int n (number of vertices)
+    # output: adj. matrix of graph, dict of weights
+    graph = np.ones((n, n))
+    weight = {}
+    points = np.zeros((n,3))
+    # decide edges to delete
+    cut_off = (math.log(n, 10))/(n) + (7/10)**(math.log(n,4))
+    for i in range(n):
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        z = np.random.uniform(0, 1)
+        points[i] = (x,y,z)
+    for i in range(n):
+        (x1,y1,z1) = points[i]
+        for j in range(i, n):
+            if i != j:
+                (x2,y2,z2) = points[j]
+                dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+                if dist < cut_off:
+                    weight[(i,j)] = dist
+                    weight[(j,i)] = dist
+                else:
+                    graph[i][j] = 0
+                    graph[j][i] = 0
             else:
                 graph[i][j] = 0
     return graph, weight
