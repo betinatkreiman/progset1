@@ -27,5 +27,5 @@ def avg_weight_k(type_graph, n, trials):
     avg += mstweight
   return (avg / trials)
 
-avg = avg_weight_k(graph_fxns[dimension], numpoints, numtrials)
+avg = avg_weight_p(graph_fxns[dimension], numpoints, numtrials)
 print(avg, numpoints, numtrials, dimension)
