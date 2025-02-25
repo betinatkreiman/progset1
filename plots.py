@@ -34,10 +34,10 @@ def max_edge_p(graph_type):
   plt.show()
 
 def max_edge_k(graph_type):
-    for i in range(2, 80):
+    for i in range(90, 110):
         # change to do by powers of 2
         # this plots the max edge weight in the mst
-        max = max_weight_k(graph_type, i, 50)
+        max = max_weight_k(graph_type, i, 1)
         plt.scatter(i, max, c='b')
         plt.scatter(i, 2/np.sqrt(i), c='r')
     plt.xlabel('x vertices')

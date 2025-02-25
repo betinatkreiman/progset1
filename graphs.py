@@ -45,7 +45,7 @@ def hypercube(n):
 def uniformly(n):
     graph = np.ones((n, n))
     weight = {}
-    points = np.zeros(n)
+    points = np.zeros((n,),dtype='i,i')
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -71,7 +71,7 @@ def graph_cube3(n):
     # output: adj. matrix of graph, dict of weights
     graph = np.ones((n, n))
     weight = {}
-    points = np.zeros(n)
+    points = np.zeros((n,),dtype='i,i,i')
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -94,7 +94,7 @@ def graph_cube4(n):
     # output: adj. matrix of graph, dict of weights
     graph = np.ones((n, n))
     weight = {}
-    points = np.zeros(n)
+    points = np.zeros((n,),dtype='i,i,i,i')
     for i in range(n):
         w = np.random.uniform(0, 1)
         x = np.random.uniform(0, 1)
