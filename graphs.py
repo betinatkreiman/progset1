@@ -19,7 +19,7 @@ def graph_basic(n):
 
 def graph_basic_faster(n):
     # input: int n (number of vertices)
-    # output: adj. matrix of complete graph, 
+    # output: adj. matrix of graph with some edges cut, 
     #         dict of weights, chosen uniformly at random in [0,1]
     graph = np.ones((n, n))
     weight = {}
@@ -40,6 +40,34 @@ def graph_basic_faster(n):
                 graph[edge][v] = 0
     return graph, weight
 
+def graph_basic_adj_list(n):
+    # input: int n (number of vertices)
+    # output: (sort of) adj. list of complete graph, 
+    #         dict of weights, chosen uniformly at random in [0,1]
+    graph_list = [[] for _ in range(n)]
+    weight = {}
+    # decide edges to ignore
+    cut_off = float('inf')
+    if n > 10:
+        cut_off = 1/np.sqrt(n - 10)
+    # edge from every v to every w except itself, add random weight
+    for v in range(n):
+        for edge in range(v+1, n):
+            w = random.uniform(0, 1)
+            if w < cut_off:
+                weight[(v,edge)] = w
+                weight[(edge,v)] = w
+                graph_list[v].append(edge)
+                graph_list[edge].append(v)
+    # convert to array with padding
+    graph = np.zeros((n,n), dtype=int)
+    for row in range(n):
+        v = graph_list[row]
+        l = len(v)
+        dummy = np.full(n-l, -1)
+        np.concatenate((np.array(v), dummy), out=graph[row])
+    return graph, weight
+
 # "Hypercube” graphs on n vertices, where (a, b) is an edge iff |a − b| = 2^i for some i,
 # and the weight of each edge is a real number chosen uniformly at random on [0,1].
 # (This does not exactly match the true definition of a hypercube graph,
@@ -49,7 +77,7 @@ def hypercube(n):
   edges = {}
 
   for i in range(n):
-    for j in range(n):
+    for j in range(i, n):
       if i != j:
       #print(abs(i - j))
         if math.log(abs(i - j), 2).is_integer():

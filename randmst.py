@@ -1,7 +1,7 @@
 import sys
 import graphs as gs
 import algorithms as algs
-# import plots as ps
+import plots as ps
 
 # input to command line: python3 randmst.py 0 numpoints numtrials dimension
 # output: average numpoints numtrials dimension
@@ -11,7 +11,7 @@ numpoints = int(numpoints_s)
 numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
-alg_choice = {0: algs.prims, 1: algs.kruskals}
+alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
 graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly, 3: gs.graph_cube3, 4: gs.graph_cube4}
 
 def avg_weight(alg_choice, type_graph, n, trials):
@@ -22,13 +22,20 @@ def avg_weight(alg_choice, type_graph, n, trials):
     avg += mstweight
   return (avg / trials)
 # ps.compare_graphs(alg_choice[alg_flag])
-# ps.max_edge_plot(alg_flag, dimension, numtrials)
-avg = avg_weight(alg_choice[alg_flag], graph_fxns[dimension], numpoints, numtrials)
-print(avg, numpoints, numtrials, dimension)
+ps.max_edge_plot(alg_flag, dimension, numtrials)
+#avg = avg_weight(alg_choice[alg_flag], graph_fxns[dimension], numpoints, numtrials)
+#print(avg, numpoints, numtrials, dimension)
 
 '''
 kruskals:
   basic: 2048, 4096
+  hyper: 4096
+  2d: 1024, 2048, 4096
+  3d: 1024, 2048, 4096
+  4d: 1024, 2048, 4096
+
+prims:
+  basic: 1024, 2048, 4096
   hyper: 4096
   2d: 1024, 2048, 4096
   3d: 1024, 2048, 4096
