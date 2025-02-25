@@ -61,11 +61,13 @@ def graph_basic_adj_list(n):
                 graph_list[edge].append(v)
     # convert to array with padding
     graph = np.zeros((n,n), dtype=int)
-    for row in range(n):
-        v = graph_list[row]
-        l = len(v)
-        dummy = np.full(n-l, -1)
-        np.concatenate((np.array(v), dummy), out=graph[row])
+    for i in range(n):
+        for j in range(n):
+            l = len(graph_list[i])
+            if j < l:
+                graph[i][j] = graph_list[i][j]
+            else:
+                graph[i][j] = -1
     return graph, weight
 
 # "Hypercube” graphs on n vertices, where (a, b) is an edge iff |a − b| = 2^i for some i,

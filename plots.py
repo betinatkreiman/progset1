@@ -8,9 +8,12 @@ graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly, 3: gs.
 alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
+  type_graph = graph_fxns[dimension]
+  if alg_flag == 0:
+    type_graph = gs.graph_basic_adj_list
   max = 0
   for _ in range(trials):
-    g, w = graph_fxns[dimension](n)
+    g, w = type_graph(n)
     _, _, _, max_edge = alg_choice[alg_flag](g, w, 0)
     max += max_edge
   return (max / trials)
@@ -35,13 +38,14 @@ def max_edge_plot(alg_flag, dimension, trials):
     plt.title(f"{algorithm} Max Edge Weight for Dimension {dimension}")
     plt.show()
 # python3 randmst.py 1 3 20 0
+    
 def run(alg, type_graph, ns, numb_times):
     times = []
 
     for n in range(4, ns):
         current_time = 0
         for _ in range(numb_times):
-            g, w = type_graph(2**n)
+            g, w = type_graph(n)
 
             start = time.time()
             alg(g, w, 0)
@@ -55,10 +59,10 @@ def run(alg, type_graph, ns, numb_times):
     return times
 
 def compare_graphs(alg_choice):
-    n = 10
-    t = 10
-    slow = run(alg_choice, gs.graph_basic, n, t)
-    fast = run(alg_choice, gs.graph_basic_faster, n, t)
+    n = 100
+    t = 20
+    slow = run(algs.prims, gs.graph_basic_faster, n, t)
+    fast = run(alg_choice, gs.graph_basic_adj_list, n, t)
     plt.scatter(*zip(*slow), c='b') 
     plt.scatter(*zip(*fast), c='r') 
     plt.xlabel('number of vertices')

@@ -63,7 +63,6 @@ def prims_adj_list(g, w, s):
           break
       else:
           v_val = g[min_node][i]
-          print(v_val)
           if v_val not in S:
             u_val = min_node
             w_uv = w[(u_val, v_val)]
