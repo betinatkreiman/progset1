@@ -3,8 +3,9 @@ import numpy as np
 import graphs as gs
 
 def prims(g, w, s):
-  d = np.full(len(g), 1000000000)
+  d = np.full(len(g), float('inf'))
   S = {}
+  #H = vertices to explore
   H = ds.Heap()
   H.init(0)
 
@@ -13,28 +14,28 @@ def prims(g, w, s):
   H.insert(s, 0)
 
   while H.heap != []:
+    # extract min vertex in H
     min_node, min_weight = H.extractmin()
-
     u = (min_node, min_weight)
 
+    # add min vertex to S
     S[u[0]] = u[1]
-
+    # loop over edges of min vertex
     for i in range(len(g[u[0]])):
-      #print(H.heap)
-
       if g[u[0]][i] == 1:
-        u_val = int(u[0])
+          if i not in S:
+            u_val = int(u[0])
 
-        v_val = i
+            v_val = i
 
-        if d[v_val] > w[(u_val, v_val)]:
-          d[v_val] = w[(u_val, v_val)]
-          prev[v_val] = u_val
-          H.insert(v_val, w[(u_val, v_val)])
+            if d[v_val] > w[(u_val, v_val)]:
+              d[v_val] = w[(u_val, v_val)]
+              prev[v_val] = u_val
+              H.insert(v_val, w[(u_val, v_val)])
 
   mst_weight = 0
   max = 0
-  for v in S.values():
+  for v in d:
     if v > max: max = v
     mst_weight += v
   return d, prev, mst_weight, max
@@ -56,3 +57,4 @@ def kruskals(g,w):
       mstweight += sort_w[(i,j)]
       last_edge = (i,j)
   return X, mstweight, sort_w[last_edge]
+g,w = gs.graph_basic(128)
