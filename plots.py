@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+import time
 '''
+
 
 def make_time_plot(name, ts, ns):
 
