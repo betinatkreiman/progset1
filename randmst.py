@@ -25,3 +25,12 @@ def avg_weight(alg_choice, type_graph, n, trials):
 # ps.max_edge_plot(alg_flag, dimension, numtrials)
 avg = avg_weight(alg_choice[alg_flag], graph_fxns[dimension], numpoints, numtrials)
 print(avg, numpoints, numtrials, dimension)
+
+'''
+kruskals:
+  basic: 2048, 4096
+  hyper: 4096
+  2d: 1024, 2048, 4096
+  3d: 1024, 2048, 4096
+  4d: 1024, 2048, 4096
+'''
