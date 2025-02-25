@@ -32,19 +32,7 @@ def graph_test(gfn):
                         raise ValueError("Graph is not undirected")
     print("graph_test passsed")
     return
-
-def prim_spanning_test(gfn):
-    # takes in a graph function
-    # insures the output of prim is a spanning tree
-
-    # run 10 times on random graph of j vertices
-    for i in range(10):
-        for j in range(10, 50):
-            graph, weight = gfn(i)
-            source = random.randint(0, j-1)
-            d, prev = algs.prims(graph, weight, source)
-    return -1
-
+    
 def kruskal_spanning_test(gfn):
     # takes in a graph function
     # insures the output of kruskals is a spanning tree
