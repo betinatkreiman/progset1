@@ -5,32 +5,33 @@ import graphs as gs
 def prims(g, w, s):
   d = np.full(len(g), 1000000000)
   S = {}
-  H = {}
+  H = ds.Heap()
+  H.init(0)
+
   prev = {s: None}
   d[s] = 0
-  H = {s:0}
+  H.insert(s, 0)
 
-  while H != {}:
-    #print(H)
-    min_val, min_index = ds.betina_heap(H)
+  while H.heap != []:
+    min_node, min_weight = H.extractmin()
 
-    u = (min_val, H.pop(min_val))
+    u = (min_node, min_weight)
 
-    #print(u)
     S[u[0]] = u[1]
 
     for i in range(len(g[u[0]])):
-      #print("HELLO", g[u[0]])
+      #print(H.heap)
+
       if g[u[0]][i] == 1:
         u_val = int(u[0])
-        #print("maybe v val", g[u[0]])
-        #v_val = int(g[u[0]][i])
+
         v_val = i
 
         if d[v_val] > w[(u_val, v_val)]:
           d[v_val] = w[(u_val, v_val)]
           prev[v_val] = u_val
-          H[v_val] = w[(u_val, v_val)]
+          H.insert(v_val, w[(u_val, v_val)])
+
   mst_weight = 0
   max = 0
   for v in S.values():

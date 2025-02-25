@@ -34,7 +34,7 @@ def max_edge_p(graph_type):
   plt.show()
 
 def max_edge_k(graph_type):
-    for i in range(90, 110):
+    for i in range(2, 50):
         # change to do by powers of 2
         # this plots the max edge weight in the mst
         max = max_weight_k(graph_type, i, 1)
