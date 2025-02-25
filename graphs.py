@@ -17,6 +17,29 @@ def graph_basic(n):
             weight[(edge,v)] = w
     return graph, weight
 
+def graph_basic_faster(n):
+    # input: int n (number of vertices)
+    # output: adj. matrix of complete graph, 
+    #         dict of weights, chosen uniformly at random in [0,1]
+    graph = np.ones((n, n))
+    weight = {}
+    # decide edges to ignore
+    cut_off = float('inf')
+    if n > 10:
+        cut_off = 1/np.sqrt(n - 10)
+    # edge from every v to every w except itself, add random weight
+    for v in range(n):
+        graph[v][v] = 0
+        for edge in range(v, n):
+            w = random.uniform(0, 1)
+            if w < cut_off:
+                weight[(v,edge)] = w
+                weight[(edge,v)] = w
+            else:
+                graph[v][edge] = 0
+                graph[edge][v] = 0
+    return graph, weight
+
 # "Hypercube” graphs on n vertices, where (a, b) is an edge iff |a − b| = 2^i for some i,
 # and the weight of each edge is a real number chosen uniformly at random on [0,1].
 # (This does not exactly match the true definition of a hypercube graph,

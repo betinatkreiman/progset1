@@ -1,56 +1,43 @@
 import matplotlib.pyplot as plt
 import time
-import algorithms as algs
-import graphs as gs
 import numpy as np
+import graphs as gs
+import algorithms as algs
 
-def max_weight_p(type_graph, n, trials):
+graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly, 3: gs.graph_cube3, 4: gs.graph_cube4}
+alg_choice = {0: algs.prims, 1: algs.kruskals}
+
+def max_edge_weight(alg_flag, dimension, n, trials):
   max = 0
   for _ in range(trials):
-    g, w = type_graph(n)
-    _, _, _, max_edge = algs.prims(g, w, 0)
+    g, w = graph_fxns[dimension](n)
+    _, _, _, max_edge = alg_choice[alg_flag](g, w, 0)
     max += max_edge
   return (max / trials)
 
-def max_weight_k(type_graph, n, trials):
-  max = 0
-  for _ in range(trials):
-    g, w = type_graph(n)
-    _, _, max_edge = algs.kruskals(g, w)
-    max += max_edge
-  return (max / trials)
-
-def max_edge_p(graph_type):
-  for i in range(2, 40):
-    # change to do by powers of 2
-    # this plots the max edge weight in the mst
-    max = max_weight_p(graph_type, i, 30)
-    plt.scatter(i, max, c='b')
-
-  plt.xlabel('x vertices')
-  plt.ylabel('Av.g max MST edge weight')
-  plt.title("Prim max edge weight")
-
-  plt.show()
-
-def max_edge_k(graph_type):
-    for i in range(2, 50):
+def max_edge_plot(alg_flag, dimension, trials):
+    for i in range(900, 950):
         # change to do by powers of 2
         # this plots the max edge weight in the mst
-        max = max_weight_k(graph_type, i, 1)
+        max = max_edge_weight(alg_flag, dimension, i, trials)
         plt.scatter(i, max, c='b')
-        plt.scatter(i, 2/np.sqrt(i), c='r')
-    plt.xlabel('x vertices')
-    plt.ylabel('Av.g max MST edge weight')
-    plt.title("Kruskal max edge weight")
+        j = i
+        if i > 10:
+           j = i - 10
+        plt.scatter(i, 1/np.sqrt(j), c='r')
+    if alg_flag == 0:
+       algorithm = "Prims"
+    else:
+       algorithm = "Kruskals"
+    plt.xlabel('number of vertices')
+    plt.ylabel('Avg max MST edge weight')
+    plt.title(f"{algorithm} Max Edge Weight for Dimension {dimension}")
     plt.show()
-
-max_edge_k(gs.graph_basic)
 
 def run(alg, type_graph, ns, numb_times):
     times = []
 
-    for n in ns:
+    for n in range(2, ns):
         current_time = 0
         for _ in range(numb_times):
             g, w = type_graph(n)
@@ -62,9 +49,20 @@ def run(alg, type_graph, ns, numb_times):
             current_time += end - start
 
         current_time /= numb_times
-        times.append(current_time)
+        times.append([n, current_time])
 
     return times
+
+def compare_graphs(alg_choice):
+    n = 200
+    slow = run(alg_choice, gs.graph_basic, n, 5)
+    fast = run(alg_choice, gs.graph_basic_faster, n, 5)
+    plt.scatter(*zip(*slow), c='b') 
+    plt.scatter(*zip(*fast), c='r') 
+    plt.xlabel('number of vertices')
+    plt.ylabel('Speed of Alg')
+    plt.title(f"Kruskals speed for dimension 0")
+    plt.show()
 
 def make_time_plot(name, ts, ns):
 

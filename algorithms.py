@@ -40,7 +40,8 @@ def prims(g, w, s):
     mst_weight += v
   return d, prev, mst_weight, max
 
-def kruskals(g,w):
+def kruskals(g,w, nill):
+  # nill = useless variable, so matches input/output of prim
   # w = dictionary
   # g = adj. matrix
   X = set()
@@ -56,5 +57,4 @@ def kruskals(g,w):
       dus.union(i,j)
       mstweight += sort_w[(i,j)]
       last_edge = (i,j)
-  return X, mstweight, sort_w[last_edge]
-g,w = gs.graph_basic(128)
+  return nill, X, mstweight, sort_w[last_edge]
