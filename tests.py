@@ -1,6 +1,5 @@
 import graphs as gs
 import algorithms as algs
-import random
 import datastructures as ds
 import numpy as np
 
@@ -69,7 +68,7 @@ def kruskal_mst_weight(gfn):
 # run tests
 union_find_test()
 for graph in [gs.graph_basic, gs.graph_cube3, gs.graph_cube4]:
-    # graph_test(graph)
+    graph_test(graph)
     # prim_spanning_test(graph)
     kruskal_spanning_test(graph)
     kruskal_mst_weight(graph)
