@@ -42,7 +42,7 @@ def prim_spanning_test(gfn):
         for j in range(10, 50):
             graph, weight = gfn(i)
             source = random.randint(0, j-1)
-            d, prev = algs.prims(graph, weight, 0)
+            d, prev = algs.prims(graph, weight, source)
     return -1
 
 def kruskal_spanning_test(gfn):

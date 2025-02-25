@@ -45,13 +45,16 @@ def hypercube(n):
 def uniformly(n):
     graph = np.ones((n, n))
     weight = {}
+    points = np.zeros(n)
     for i in range(n):
-        x1 = np.random.uniform(0, 1)
-        y1 = np.random.uniform(0, 1)
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        points[i] = (x,y)
+    for i in range(n):
+        (x1,y1) = points[i]
         for j in range(i, n):
             if i != j:
-                x2 = np.random.uniform(0, 1)
-                y2 = np.random.uniform(0, 1)
+                (x2,y2) = points[j]
                 dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
                 weight[(i,j)] = dist
                 weight[(j,i)] = dist
@@ -68,15 +71,17 @@ def graph_cube3(n):
     # output: adj. matrix of graph, dict of weights
     graph = np.ones((n, n))
     weight = {}
+    points = np.zeros(n)
     for i in range(n):
-        x1 = np.random.uniform(0, 1)
-        y1 = np.random.uniform(0, 1)
-        z1 = np.random.uniform(0, 1)
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        z = np.random.uniform(0, 1)
+        points[i] = (x,y,z)
+    for i in range(n):
+        (x1,y1,z1) = points[i]
         for j in range(i, n):
             if i != j:
-                x2 = np.random.uniform(0, 1)
-                y2 = np.random.uniform(0, 1)
-                z2 = np.random.uniform(0, 1)
+                (x2,y2,z2) = points[j]
                 dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
                 weight[(i,j)] = dist
                 weight[(j,i)] = dist
@@ -89,17 +94,18 @@ def graph_cube4(n):
     # output: adj. matrix of graph, dict of weights
     graph = np.ones((n, n))
     weight = {}
+    points = np.zeros(n)
     for i in range(n):
-        w1 = random.uniform(0,1)
-        x1 = random.uniform(0, 1)
-        y1 = random.uniform(0, 1)
-        z1 = random.uniform(0, 1)
+        w = np.random.uniform(0, 1)
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        z = np.random.uniform(0, 1)
+        points[i] = (w,x,y,z)
+    for i in range(n):
+        (w1,x1,y1,z1) = points[i]
         for j in range(i, n):
             if i != j:
-                w2 = random.uniform(0, 1)
-                x2 = random.uniform(0, 1)
-                y2 = random.uniform(0, 1)
-                z2 = random.uniform(0, 1)
+                (w2,x2,y2,z2) = points[j]
                 dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
                 weight[(i,j)] = dist
                 weight[(j,i)] = dist

@@ -19,16 +19,6 @@ def avg_weight_p(type_graph, n, trials):
     avg += mstweight
   return (avg / trials)
 
-def max_weight_p(type_graph, n, trials):
-  max = 0
-  for _ in range(trials):
-    g, w = type_graph(n)
-    _, _, _, max_edge = algs.prims(g, w, 0)
-    max += max_edge
-  return (max / trials)
-
-# compute the average weight of type_graph on n vertices over trials
-# using kruskal's alg
 def avg_weight_k(type_graph, n, trials):
   avg = 0
   for _ in range(trials):
