@@ -6,14 +6,11 @@ import algorithms as algs
 import math
 
 graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
-alg_choice = {1: algs.prims, 0: algs.kruskals}
+alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
     type_graph = graph_fxns[dimension]
     algorihtm = alg_choice[alg_flag]
-    if alg_flag == 0 and dimension == 0:
-        type_graph = gs.graph_basic_adj_list
-        algorihtm = algs.prims_adj_list
     max = 0
     for _ in range(trials):
         g, w = type_graph(n)

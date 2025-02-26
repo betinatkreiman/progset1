@@ -14,9 +14,6 @@ dimension = int(dimension_s)
 def avg_weight(alg_flag, dim, n, trials):
   algorithm = ps.alg_choice[alg_flag]
   type_graph = ps.graph_fxns[dim]
-  if alg_flag == 0 and dim == 0:
-    algorithm = algs.prims_adj_list
-    type_graph = gs.graph_basic_adj_list
   avg = 0
   for _ in range(trials):
     g, w = type_graph(n)
@@ -32,15 +29,15 @@ print(avg, numpoints, numtrials, dimension)
 
 '''
 kruskals:
-  basic: 2048, 4096
-  hyper: 4096
-  2d: 1024, 2048, 4096
-  3d: 1024, 2048, 4096
-  4d: 1024, 2048, 4096
+  basic: 4096
+  hyper: 4096 (sometimes)
+  2d: 2048, 4096
+  3d: 2048, 4096
+  4d: 2048, 4096
 
 prims:
   basic: 4096
-  hyper: 4096
+  hyper: 4096 
   2d: 1024, 2048, 4096
   3d: 1024, 2048, 4096
   4d: 1024, 2048, 4096
