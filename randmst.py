@@ -29,12 +29,12 @@ print(avg, numpoints, numtrials, dimension)
 # print(avg2, numpoints, numtrials, dimension)
 
 '''
-kruskals: (generally faster than prims, but for complete ones only once edges are cut)
-  basic: 4096
+kruskals: (generally faster than prims, but only once edges are cut from complete graphs)
+  basic: all!
   hyper: 4096 (sometimes)
   2d: 4096
   3d: 4096
-  4d: 2048, 4096
+  4d: 4096
 
 prims:
   basic: 4096
