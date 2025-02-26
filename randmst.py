@@ -20,7 +20,7 @@ def avg_weight(alg_flag, dim, n, trials):
     _, _, mstweight, _ = algorithm(g,w,0)
     avg += mstweight
   return (avg / trials)
-# ps.compare_graphs(alg_choice[alg_flag])
+# ps.compare_graphs(ps.alg_choice[alg_flag])
 # ps.max_edge_plot(alg_flag, dimension, numtrials)
 avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
 # avg2 = avg_weight(alg_flag, 5, numpoints, numtrials)
@@ -38,7 +38,7 @@ kruskals:
 prims:
   basic: 4096
   hyper: 4096 
-  2d: 1024, 2048, 4096
-  3d: 1024, 2048, 4096
-  4d: 1024, 2048, 4096
+  2d: 2048, 4096
+  3d: 2048, 4096
+  4d: 2048, 4096
 '''

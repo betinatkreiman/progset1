@@ -101,10 +101,17 @@ def kruskals(g,w, nill):
   dus = ds.DisjointUnionSets(vertex_count)
   # sort edges by weight
   sort_w = {k: v for k, v in sorted(w.items(), key=lambda item: item[1])}
+  # (i,j) = (j,i) so we don't have to check both
+  count = 0
   for (i,j) in sort_w:
-    if dus.find(i) != dus.find(j):
-      X.add((i,j))
-      dus.union(i,j)
-      mstweight += sort_w[(i,j)]
-      last_edge = (i,j)
+    if count == 1:
+       count == 0
+       continue
+    else: 
+      count == 1
+      if dus.find(i) != dus.find(j):
+        X.add((i,j))
+        dus.union(i,j)
+        mstweight += sort_w[(i,j)]
+        last_edge = (i,j)
   return nill, X, mstweight, sort_w[last_edge]

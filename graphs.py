@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import math
+import time
 
 def graph_basic(n):
     # input: int n (number of vertices)
@@ -87,6 +88,24 @@ def hypercube(n):
 
   return graph, edges
 
+def hypercube_faster(n):
+    graph = np.zeros((n, n))
+    edges = {}
+    cut_off = 0.45 + 1/(n**(1/4))
+    for i in range(n):
+        for j in range(i, n):
+            if i != j:
+            #print(abs(i - j))
+                w = np.random.uniform(0, 1)
+                if w < cut_off:
+                    if math.log(abs(i - j), 2).is_integer():
+                        graph[i][j] = 1
+                        graph[j][i] = 1
+                        edges[(i,j)] = w
+                        edges[(j,i)] = w
+
+    return graph, edges
+
 # Complete graphs on n vertices, where the vertices are points chosen uniformly at
 # random inside the unit square. (That is, the points are (x,y), with x and y each
 # a real number chosen uniformly at random from [0, 1].) The weight of an edge is
@@ -112,7 +131,7 @@ def uniformly(n):
     return graph, weight
 
 def uniformly_faster(n):
-    graph = np.ones((n, n))
+    graph = np.zeros((n, n))
     weight = {}
     points = np.zeros((n,2))
     # remove large edges
@@ -130,11 +149,8 @@ def uniformly_faster(n):
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                else:
-                    graph[i][j] = 0
-                    graph[j][i] = 0
-            else:
-                graph[i][j] = 0
+                    graph[i][j] = 1
+                    graph[j][i] = 1
     return graph, weight
 
 # Complete graphs on n vertices, where the vertices are points chosen uniformly 
