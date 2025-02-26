@@ -139,7 +139,7 @@ def uniformly_faster(n):
     weight = {}
     points = np.zeros((n,2))
     # remove large edges
-    cut_off = np.sqrt(2)/(math.log(n, 5))
+    cut_off = 3/(2**math.log(n,4))
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -191,7 +191,9 @@ def graph_cube3_faster(n):
     weight = {}
     points = np.zeros((n,3))
     # decide edges to delete
-    cut_off = np.sqrt(3)/(math.log(n, 5))
+    cut_off = 2.2/(2**(math.log(n,8)))
+    # np.sqrt(3)/math.log(n,5)
+    #3/(2**(math.log(n,4)))
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -243,7 +245,8 @@ def graph_cube4_faster(n):
     graph = np.ones((n, n))
     weight = {}
     points = np.zeros((n,4))
-    cut_off = np.sqrt(4)/(math.log(n, 5))
+    cut_off = 2/(2**(math.log(n,16)))
+    # np.sqrt(4)/(math.log(n, 5))
     for i in range(n):
         w = np.random.uniform(0, 1)
         x = np.random.uniform(0, 1)
