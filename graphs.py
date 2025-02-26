@@ -22,7 +22,7 @@ def graph_basic_faster(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph with some edges cut, 
     #         dict of weights, chosen uniformly at random in [0,1]
-    graph = np.ones((n, n))
+    graph = np.zeros((n, n))
     weight = {}
     # decide edges to ignore
     cut_off = float('inf')
@@ -30,15 +30,13 @@ def graph_basic_faster(n):
         cut_off = 20*(1/(n-1)-1/((n-1)**2))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
-        graph[v][v] = 0
-        for edge in range(v, n):
+        for edge in range(v+1, n):
             w = random.uniform(0, 1)
             if w < cut_off:
                 weight[(v,edge)] = w
                 weight[(edge,v)] = w
-            else:
-                graph[v][edge] = 0
-                graph[edge][v] = 0
+                graph[v][edge] = 1
+                graph[edge][v] = 1
     return graph, weight
 
 def graph_basic_adj_list(n):
@@ -97,17 +95,15 @@ def hypercube_faster(n):
     edges = {}
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
-        for j in range(i, n):
-            if i != j:
+        for j in range(i+1, n):
             #print(abs(i - j))
                 w = np.random.uniform(0, 1)
                 if w < cut_off:
                     if math.log(abs(i - j), 2).is_integer():
-                        graph[i][j] = 1
-                        graph[j][i] = 1
                         edges[(i,j)] = w
                         edges[(j,i)] = w
-
+                        graph[i][j] = 1
+                        graph[j][i] = 1
     return graph, edges
 
 # Complete graphs on n vertices, where the vertices are points chosen uniformly at
@@ -123,7 +119,7 @@ def uniformly(n):
         y = np.random.uniform(0, 1)
         points[i] = x,y
     for i in range(n):
-        (x1,y1) = points[i]
+        x1,y1 = points[i]
         for j in range(i, n):
             if i != j:
                 x2,y2 = points[j]
@@ -187,7 +183,7 @@ def graph_cube3(n):
 def graph_cube3_faster(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph, dict of weights
-    graph = np.ones((n, n))
+    graph = np.zeros((n, n))
     weight = {}
     points = np.zeros((n,3))
     # decide edges to delete
@@ -208,11 +204,8 @@ def graph_cube3_faster(n):
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                else:
-                    graph[i][j] = 0
-                    graph[j][i] = 0
-            else:
-                graph[i][j] = 0
+                    graph[i][j] = 1
+                    graph[j][i] = 1
     return graph, weight
 
 def graph_cube4(n):
@@ -242,7 +235,7 @@ def graph_cube4(n):
 def graph_cube4_faster(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph, dict of weights
-    graph = np.ones((n, n))
+    graph = np.zeros((n, n))
     weight = {}
     points = np.zeros((n,4))
     cut_off = 2/(2**(math.log(n,16)))
@@ -262,9 +255,6 @@ def graph_cube4_faster(n):
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                else:
-                    graph[i][j] = 0
-                    graph[j][i] = 0
-            else:
-                graph[i][j] = 0
+                    graph[i][j] = 1
+                    graph[j][i] = 1
     return graph, weight
