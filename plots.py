@@ -1,8 +1,9 @@
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import time
 import numpy as np
 import graphs as gs
 import algorithms as algs
+import math
 
 graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube_faster, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
 alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
@@ -19,13 +20,15 @@ def max_edge_weight(alg_flag, dimension, n, trials):
     return max
 
 def max_edge_plot(alg_flag, dimension, trials):
-    for n in range(2, 150):
+    for a in range(1, 13):
+        n = 2**a
         # change to do by powers of 2
         # this plots the max edge weight in the mst
         max = max_edge_weight(alg_flag, dimension, n, trials)
         plt.scatter(n, max, c='b')
         # edit this one:
-        plt.scatter(n, 0.45 + 1/(n**(1/4)), c='r')
+        plt.scatter(n,20*(1/(n-1)-1/((n-1)**2)), c='r')
+        print(n, max, 20*(1/(n-1)-1/((n-1)**2)))
     if alg_flag == 0:
        algorithm = "Prims"
     else:
@@ -58,8 +61,8 @@ def run(alg, type_graph, ns, numb_times):
 def compare_graphs(alg_choice):
     n = 100
     t = 20
-    slow = run(alg_choice, gs.hypercube, n, t)
-    fast = run(alg_choice, gs.hypercube_faster, n, t)
+    slow = run(alg_choice, gs.graph_basic, n, t)
+    fast = run(alg_choice, gs.graph_basic_faster, n, t)
     plt.scatter(*zip(*slow), c='b') 
     plt.scatter(*zip(*fast), c='r') 
     plt.xlabel('number of vertices')

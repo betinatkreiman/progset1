@@ -25,7 +25,9 @@ def graph_basic_faster(n):
     graph = np.ones((n, n))
     weight = {}
     # decide edges to ignore
-    cut_off = 2/np.sqrt(n)
+    cut_off = float('inf')
+    if n > 3:
+        cut_off = 20*(1/(n-1)-1/((n-1)**2))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         graph[v][v] = 0
@@ -46,7 +48,9 @@ def graph_basic_adj_list(n):
     graph_list = [[] for _ in range(n)]
     weight = {}
     # decide edges to ignore
-    cut_off = 2/np.sqrt(n)
+    cut_off = float('inf')
+    if n > 3:
+        cut_off = 20*(1/(n-1)-1/((n-1)**2))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         for edge in range(v+1, n):

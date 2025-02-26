@@ -2,6 +2,7 @@ import sys
 import graphs as gs
 import algorithms as algs
 import plots as ps
+import time
 
 # input to command line: python3 randmst.py 0 numpoints numtrials dimension
 # output: average numpoints numtrials dimension
