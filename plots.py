@@ -1,39 +1,42 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import time
 import numpy as np
 import graphs as gs
 import algorithms as algs
 import math
 
-graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly, 3: gs.graph_cube3_faster, 4: gs.graph_cube4}
-alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
+graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
+alg_choice = {1: algs.prims, 0: algs.kruskals}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
-  type_graph = graph_fxns[dimension]
-  if alg_flag == 0:
-    type_graph = gs.graph_basic_adj_list
-  max = 0
-  for _ in range(trials):
-    g, w = type_graph(n)
-    _, _, _, max_edge = alg_choice[alg_flag](g, w, 0)
-    max += max_edge
-  return (max / trials)
+    type_graph = graph_fxns[dimension]
+    algorihtm = alg_choice[alg_flag]
+    if alg_flag == 0 and dimension == 0:
+        type_graph = gs.graph_basic_adj_list
+        algorihtm = algs.prims_adj_list
+    max = 0
+    for _ in range(trials):
+        g, w = type_graph(n)
+        _, _, _, max_edge = algorihtm(g, w, 0)
+        if max_edge > max:
+            max = max_edge
+    return max
 
 def max_edge_plot(alg_flag, dimension, trials):
-    for i in range(500, 510):
+    for n in range(100, 102):
         # change to do by powers of 2
         # this plots the max edge weight in the mst
-        pwr = i
-        max = max_edge_weight(alg_flag, dimension, pwr, trials)
-        plt.scatter(i, max, c='b')
+        max = max_edge_weight(alg_flag, dimension, n, trials)
+        plt.scatter(n, max, c='b')
         # edit this one:
-        plt.scatter(i, (math.log(i, 10))/(i) + (7/10)**(math.log(i,4)), c='r')
+        # math.log((a), 5))/((a)) + (4/7)**(math.log((a),3)
+        plt.scatter(n, np.sqrt(4)/(math.log(n, 5)), c='r')
     if alg_flag == 0:
        algorithm = "Prims"
     else:
        algorithm = "Kruskals"
     plt.xlabel('number of vertices')
-    plt.ylabel('Avg max MST edge weight')
+    plt.ylabel('Max MST edge weight across trials')
     plt.title(f"{algorithm} Max Edge Weight for Dimension {dimension}")
     plt.show()
 # python3 randmst.py 1 3 20 0
@@ -60,8 +63,8 @@ def run(alg, type_graph, ns, numb_times):
 def compare_graphs(alg_choice):
     n = 100
     t = 20
-    slow = run(alg_choice, gs.graph_cube3, n, t)
-    fast = run(alg_choice, gs.graph_cube3_faster, n, t)
+    slow = run(alg_choice, gs.uniformly, n, t)
+    fast = run(alg_choice, gs.uniformly_faster, n, t)
     plt.scatter(*zip(*slow), c='b') 
     plt.scatter(*zip(*fast), c='r') 
     plt.xlabel('number of vertices')

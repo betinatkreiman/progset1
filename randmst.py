@@ -11,12 +11,9 @@ numpoints = int(numpoints_s)
 numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
-alg_choice = {1: algs.prims, 0: algs.kruskals}
-graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube, 2: gs.uniformly, 3: gs.graph_cube3_faster, 4: gs.graph_cube4}
-
 def avg_weight(alg_flag, dim, n, trials):
-  algorithm = alg_choice[alg_flag]
-  type_graph = graph_fxns[dim]
+  algorithm = ps.alg_choice[alg_flag]
+  type_graph = ps.graph_fxns[dim]
   if alg_flag == 0 and dim == 0:
     algorithm = algs.prims_adj_list
     type_graph = gs.graph_basic_adj_list

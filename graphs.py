@@ -24,9 +24,7 @@ def graph_basic_faster(n):
     graph = np.ones((n, n))
     weight = {}
     # decide edges to ignore
-    cut_off = float('inf')
-    if n > 10:
-        cut_off = 1/((n - 10)**(5/9))
+    cut_off = 2/np.sqrt(n)
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         graph[v][v] = 0
@@ -47,9 +45,7 @@ def graph_basic_adj_list(n):
     graph_list = [[] for _ in range(n)]
     weight = {}
     # decide edges to ignore
-    cut_off = float('inf')
-    if n > 10:
-        cut_off = 1/((n - 10)**(5/9))
+    cut_off = 2/np.sqrt(n)
     # edge from every v to every w except itself, add random weight
     for v in range(n):
         for edge in range(v+1, n):
@@ -115,6 +111,32 @@ def uniformly(n):
                 graph[i][j] = 0
     return graph, weight
 
+def uniformly_faster(n):
+    graph = np.ones((n, n))
+    weight = {}
+    points = np.zeros((n,2))
+    # remove large edges
+    cut_off = np.sqrt(2)/(math.log(n, 5))
+    for i in range(n):
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        points[i] = x,y
+    for i in range(n):
+        (x1,y1) = points[i]
+        for j in range(i, n):
+            if i != j:
+                x2,y2 = points[j]
+                dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
+                if dist < cut_off:
+                    weight[(i,j)] = dist
+                    weight[(j,i)] = dist
+                else:
+                    graph[i][j] = 0
+                    graph[j][i] = 0
+            else:
+                graph[i][j] = 0
+    return graph, weight
+
 # Complete graphs on n vertices, where the vertices are points chosen uniformly 
 # at random inside the unit cube (3 dimensions) and hypercube (4 dimensions).
 # As with the unit square case above, the weight of an edge is 
@@ -149,7 +171,7 @@ def graph_cube3_faster(n):
     weight = {}
     points = np.zeros((n,3))
     # decide edges to delete
-    cut_off = (math.log(n, 10))/(n) + (7/10)**(math.log(n,4))
+    cut_off = np.sqrt(3)/(math.log(n, 5))
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -191,6 +213,35 @@ def graph_cube4(n):
                 dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
                 weight[(i,j)] = dist
                 weight[(j,i)] = dist
+            else:
+                graph[i][j] = 0
+    return graph, weight
+
+def graph_cube4_faster(n):
+    # input: int n (number of vertices)
+    # output: adj. matrix of graph, dict of weights
+    graph = np.ones((n, n))
+    weight = {}
+    points = np.zeros((n,4))
+    cut_off = np.sqrt(4)/(math.log(n, 5))
+    for i in range(n):
+        w = np.random.uniform(0, 1)
+        x = np.random.uniform(0, 1)
+        y = np.random.uniform(0, 1)
+        z = np.random.uniform(0, 1)
+        points[i] = (w,x,y,z)
+    for i in range(n):
+        (w1,x1,y1,z1) = points[i]
+        for j in range(i, n):
+            if i != j:
+                (w2,x2,y2,z2) = points[j]
+                dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+                if dist < cut_off:
+                    weight[(i,j)] = dist
+                    weight[(j,i)] = dist
+                else:
+                    graph[i][j] = 0
+                    graph[j][i] = 0
             else:
                 graph[i][j] = 0
     return graph, weight

@@ -39,6 +39,7 @@ def prims(g, w, s):
     mst_weight += v
   return d, prev, mst_weight, max
 
+
 def prims_adj_list(g, w, s):
   n = len(g)
   d = np.full(n, float('inf'))
