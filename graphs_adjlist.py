@@ -46,7 +46,7 @@ def uniformly_al(n):
     weight = {}
     points = np.zeros((n,2))
     # remove large edges
-    cut_off = 3/(2**math.log(n,4))
+    cut_off = 3/(n**(1/2))
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
@@ -115,3 +115,27 @@ def graph_cube4_al(n):
                 graph[i].append(j)
                 graph[j].append(i)
     return graph, weight
+
+def graph_basic_beta(n):
+    graph = [[] for _ in range(n)]
+    weight = {}
+    cut_off = 20*(1/(n-1)-1/((n-1)**2))
+    # pick expected number of edges
+    if cut_off > 1:
+        cut_off = 1
+    edge_total = (n)*(n-1)*0.5
+    k = math.ceil((cut_off)*edge_total)
+    for j in range(k):
+        # pick random edges, assume ordered least to greatest
+        source = random.randint(0, n-1)
+        target = random.randint(0, n-1)
+        while target in graph[source]:
+            target = random.randint(0, n-1)
+        graph[source].append(target)
+        graph[target].append(source)
+        # jth order stat
+        w = np.random.beta(j+1, edge_total - j + 2)
+        weight[(source, target)] = w
+        weight[(target, source)] = w
+    return graph, weight
+# 39990
