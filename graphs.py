@@ -238,14 +238,16 @@ def graph_cube4_faster(n):
     graph = np.zeros((n, n))
     weight = {}
     points = np.zeros((n,4))
-    cut_off = 2/(2**(math.log(n,16)))
-    # np.sqrt(4)/(math.log(n, 5))
+    cut_off = 2/(n**(1/4))
+    # old: np.sqrt(4)/(math.log(n, 5))
+    # save points
     for i in range(n):
         w = np.random.uniform(0, 1)
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
         z = np.random.uniform(0, 1)
         points[i] = (w,x,y,z)
+    # make graph
     for i in range(n):
         (w1,x1,y1,z1) = points[i]
         for j in range(i, n):

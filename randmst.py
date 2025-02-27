@@ -13,8 +13,8 @@ numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
 def avg_weight(alg_flag, dim, n, trials):
-  algorithm = ps.alg_choice[alg_flag]
-  type_graph = ps.graph_fxns[dim]
+  algorithm = ps.alg_choice_no_w[alg_flag]
+  type_graph = ps.graph_fxns_no_wk[dim]
   avg = 0
   for _ in range(trials):
     g,w = type_graph(n)

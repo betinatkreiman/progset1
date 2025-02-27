@@ -136,3 +136,56 @@ def kruskals_al(g,w, nill):
       mstweight += sort_w[(i,j)]
       last_edge = (i,j)
   return nill, X, mstweight, sort_w[last_edge]
+
+def prims_no_w(g, _, s):
+  n = len(g)
+  d = np.full(n, float('inf'))
+  S = {}
+  #H = vertices to explore
+  H = ds.Heap()
+  H.init(0)
+
+  prev = {s: None}
+  d[s] = 0
+  H.insert(s, 0)
+
+  while H.heap != []:
+    # extract min vertex in H
+    min_node, min_weight = H.extractmin()
+
+    # add min vertex to S
+    S[min_node] = min_weight
+    # loop over edges of min vertex
+    edge_list = g[min_node]
+    for edge in edge_list:
+        target = edge[0]
+        if target not in S:
+          w_uv = edge[1]
+          if d[target] > w_uv:
+            d[target] = w_uv
+            prev[target] = min_node
+            H.insert(target, w_uv)
+
+  mst_weight = 0
+  max = 0
+  for v in d:
+    if v > max: max = v
+    mst_weight += v
+  return d, prev, mst_weight, max
+
+def kruskals_no_w(g,n, nill):
+  # nill = useless variable, so matches input/output of prim
+  # w = dictionary
+  # g = adj. list
+  X = set()
+  mstweight = 0
+  # create set for each vertex; assuming vertices are numbered 0 to n-1
+  dus = ds.DisjointUnionSets(n)
+  # sort edges by weight
+  g_sorted = sorted(g, key=lambda x: x[1])
+  for ((i,j),w) in g_sorted:
+    if dus.find(i) != dus.find(j):
+      X.add((i,j))
+      dus.union(i,j)
+      mstweight += w
+  return nill, X, mstweight, -1
