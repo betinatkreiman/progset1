@@ -13,7 +13,6 @@ numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
 def avg_weight(alg_flag, dim, n, trials):
-  t = time.time()
   algorithm = ps.alg_choice_al[alg_flag]
   type_graph = ps.graph_fxns_al[dim]
   avg = 0
@@ -21,7 +20,6 @@ def avg_weight(alg_flag, dim, n, trials):
     g,w = type_graph(n)
     _, _, mstweight, _ = algorithm(g,w,0)
     avg += mstweight
-  print(time.time() - t)
   return (avg / trials)
 
 # ps.compare_graphs(ps.alg_choice[alg_flag])
