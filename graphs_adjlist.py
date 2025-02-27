@@ -19,7 +19,6 @@ def graph_basic_al(n):
             w = random.uniform(0, 1)
             if w < cut_off:
                 weight[(v,edge)] = w
-                weight[(edge,v)] = w
                 graph[v].append(edge)
                 graph[edge].append(v)
     return graph, weight
@@ -36,7 +35,6 @@ def hypercube_al(n):
                     if w < cut_off:
                         if math.log(abs(i - j), 2).is_integer():
                             edges[(i,j)] = w
-                            edges[(j,i)] = w
                             graph[i].append(j)
                             graph[j].append(i)
     return graph, edges
@@ -58,7 +56,6 @@ def uniformly_al(n):
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
             if dist < cut_off:
                 weight[(i,j)] = dist
-                weight[(j,i)] = dist
                 graph[i].append(j)
                 graph[j].append(i)
     return graph, weight
@@ -85,7 +82,6 @@ def graph_cube3_al(n):
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
                 weight[(i,j)] = dist
-                weight[(j,i)] = dist
                 graph[i].append(j)
                 graph[j].append(i)
     return graph, weight
@@ -111,12 +107,11 @@ def graph_cube4_al(n):
             dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
                 weight[(i,j)] = dist
-                weight[(j,i)] = dist
                 graph[i].append(j)
                 graph[j].append(i)
     return graph, weight
 
-def graph_basic_beta(n):
+def graph_basic_stat(n):
     graph = [[] for _ in range(n)]
     weight = {}
     cut_off = 20*(1/(n-1)-1/((n-1)**2))
@@ -129,13 +124,14 @@ def graph_basic_beta(n):
         # pick random edges, assume ordered least to greatest
         source = random.randint(0, n-1)
         target = random.randint(0, n-1)
-        while target in graph[source]:
+        while (target in graph[source] or target == source):
+            source = random.randint(0, n-1)
             target = random.randint(0, n-1)
         graph[source].append(target)
         graph[target].append(source)
         # jth order stat
         w = np.random.beta(j+1, edge_total - j + 2)
-        weight[(source, target)] = w
-        weight[(target, source)] = w
+        a = min(source, target)
+        b = max(source, target)
+        weight[(a, b)] = w
     return graph, weight
-# 39990

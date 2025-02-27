@@ -100,13 +100,16 @@ def prims_al(g, w, s):
     edge_list = g[min_node]
     for edge in edge_list:
         if edge not in S:
-          u_val = min_node
-          v_val = edge
-          w_uv = w[(u_val, v_val)]
-          if d[v_val] > w_uv:
-            d[v_val] = w_uv
-            prev[v_val] = u_val
-            H.insert(v_val, w_uv)
+          a = min_node
+          b = edge
+          if edge < min_node:
+            a = edge
+            b = min_node
+          w_uv = w[(a, b)]
+          if d[edge] > w_uv:
+            d[edge] = w_uv
+            prev[edge] = min_node
+            H.insert(edge, w_uv)
 
   mst_weight = 0
   max = 0
@@ -126,17 +129,10 @@ def kruskals_al(g,w, nill):
   dus = ds.DisjointUnionSets(vertex_count)
   # sort edges by weight
   sort_w = {k: v for k, v in sorted(w.items(), key=lambda item: item[1])}
-  # (i,j) = (j,i) so we don't have to check both
-  count = 0
   for (i,j) in sort_w:
-    if count == 1:
-       count == 0
-       continue
-    else: 
-      count == 1
-      if dus.find(i) != dus.find(j):
-        X.add((i,j))
-        dus.union(i,j)
-        mstweight += sort_w[(i,j)]
-        last_edge = (i,j)
+    if dus.find(i) != dus.find(j):
+      X.add((i,j))
+      dus.union(i,j)
+      mstweight += sort_w[(i,j)]
+      last_edge = (i,j)
   return nill, X, mstweight, sort_w[last_edge]
