@@ -12,7 +12,7 @@ alg_choice = {1: algs.prims_al, 0: algs.kruskals_al}
 
 graph_fxns_no_w = {0: gal.graph_basic_no_w, 1: gal.hypercube_no_w, 2: gal.uniformly_no_w, 3: gal.graph_cube3_no_w, 4: gal.graph_cube4_no_w}
 graph_fxns_no_wk = {0: gal.graph_basic_no_wk, 1: gal.hypercube_no_wk, 2: gal.uniformly_no_wk, 3: gal.graph_cube3_no_wk, 4: gal.graph_cube4_no_wk}
-alg_choice_no_w = {1: algs.prims_no_w, 0: algs.kruskals_no_w}
+alg_choice_no_w = {0: algs.prims_no_w, 1: algs.kruskals_no_w}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
     algorihtm = alg_choice[alg_flag]
