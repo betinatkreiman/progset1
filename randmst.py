@@ -11,10 +11,12 @@ alg_flag = int(alg_flag_s)
 numpoints = int(numpoints_s)
 numtrials = int(numtrials_s)
 dimension = int(dimension_s)
+if dimension != 0:
+  raise ValueError("ignore")
 
 def avg_weight(alg_flag, dim, n, trials):
-  algorithm = ps.alg_choice_al[alg_flag]
-  type_graph = ps.graph_fxns_al[dim]
+  algorithm = ps.alg_choice[alg_flag]
+  type_graph = ps.graph_fxns[dim]
   avg = 0
   for _ in range(trials):
     g,w = type_graph(n)
