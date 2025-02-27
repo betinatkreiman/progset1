@@ -24,11 +24,11 @@ def avg_weight(alg_flag, dim, n, trials):
     avg += mstweight
   return (avg / trials)
 
-ps.compare_graphs()
+# ps.compare_graphs()
 # ps.max_edge_plot(alg_flag, dimension, numtrials)
-# avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
+avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
 # avg2 = avg_weight(alg_flag, 5, numpoints, numtrials)
-# print(avg, numpoints, numtrials, dimension)
+print(avg, numpoints, numtrials, dimension)
 # print(avg2, numpoints, numtrials, dimension)
 
 '''
