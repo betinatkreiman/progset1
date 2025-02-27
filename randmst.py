@@ -1,31 +1,45 @@
 import sys
 import graphs as gs
 import algorithms as algs
+import plots as ps
+import time
 
-# input to command line: python3 progset.py 0 numpoints numtrials dimension
+# input to command line: python3 randmst.py 0 numpoints numtrials dimension
 # output: average numpoints numtrials dimension
-program_name_s, flag_s, numpoints_s, numtrials_s, dimension_s = sys.argv
+program_name_s, alg_flag_s, numpoints_s, numtrials_s, dimension_s = sys.argv
+alg_flag = int(alg_flag_s)
 numpoints = int(numpoints_s)
 numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
-graph_fxns = {0: gs.graph_basic, 1: gs.hypercube, 2: gs.uniformly, 3: gs.graph_cube3, 4: gs.graph_cube4}
-
-def avg_weight_p(type_graph, n, trials):
+def avg_weight(alg_flag, dim, n, trials):
+  algorithm = ps.alg_choice[alg_flag]
+  type_graph = ps.graph_fxns[dim]
   avg = 0
   for _ in range(trials):
     g, w = type_graph(n)
-    _, _, mstweight, _ = algs.prims(g,w,0)
+    _, _, mstweight, _ = algorithm(g,w,0)
     avg += mstweight
   return (avg / trials)
-
-def avg_weight_k(type_graph, n, trials):
-  avg = 0
-  for _ in range(trials):
-    g, w = type_graph(n)
-    _, mstweight, _ = algs.kruskals(g, w)
-    avg += mstweight
-  return (avg / trials)
-
-avg = avg_weight_p(graph_fxns[dimension], numpoints, numtrials)
+# ps.compare_graphs(ps.alg_choice[alg_flag])
+# ps.max_edge_plot(alg_flag, dimension, numtrials)
+avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
+# avg2 = avg_weight(alg_flag, 5, numpoints, numtrials)
 print(avg, numpoints, numtrials, dimension)
+# print(avg2, numpoints, numtrials, dimension)
+
+'''
+kruskals: (generally faster than prims, but only once edges are cut from complete graphs)
+  basic: all!
+  hyper: 4096 (sometimes)
+  2d: 4096
+  3d: 4096
+  4d: 4096
+
+prims:
+  basic: 4096
+  hyper: 4096 
+  2d: 2048, 4096
+  3d: 2048, 4096
+  4d: 2048, 4096
+'''
