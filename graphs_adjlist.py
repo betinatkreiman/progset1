@@ -15,13 +15,13 @@ def graph_basic_al(n):
         cut_off = 20*(1/(n-1)-1/((n-1)**2))
     # edge from every v to every w except itself, add random weight
     for v in range(n):
-        for edge in range(n):
-            if v != edge:
-                w = random.uniform(0, 1)
-                if w < cut_off:
-                    weight[(v,edge)] = w
-                    weight[(edge,v)] = w
-                    graph[v].append(edge)
+        for edge in range(v+1,n):
+            w = random.uniform(0, 1)
+            if w < cut_off:
+                weight[(v,edge)] = w
+                weight[(edge,v)] = w
+                graph[v].append(edge)
+                graph[edge].append(v)
     return graph, weight
 
 def hypercube_al(n):
@@ -29,7 +29,7 @@ def hypercube_al(n):
     edges = {}
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
-        for j in range(n):
+        for j in range(i+1,n):
                 if i != j:
             #print(abs(i - j))
                     w = np.random.uniform(0, 1)
@@ -38,6 +38,7 @@ def hypercube_al(n):
                             edges[(i,j)] = w
                             edges[(j,i)] = w
                             graph[i].append(j)
+                            graph[j].append(i)
     return graph, edges
 
 def uniformly_al(n):
@@ -52,14 +53,14 @@ def uniformly_al(n):
         points[i] = x,y
     for i in range(n):
         (x1,y1) = points[i]
-        for j in range(i, n):
-            if i != j:
-                x2,y2 = points[j]
-                dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
-                if dist < cut_off:
-                    weight[(i,j)] = dist
-                    weight[(j,i)] = dist
-                    graph[i].append(j)
+        for j in range(i+1, n):
+            x2,y2 = points[j]
+            dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
+            if dist < cut_off:
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+                graph[i].append(j)
+                graph[j].append(i)
     return graph, weight
                                 
 def graph_cube3_al(n):
@@ -79,14 +80,14 @@ def graph_cube3_al(n):
         points[i] = (x,y,z)
     for i in range(n):
         (x1,y1,z1) = points[i]
-        for j in range(n):
-            if i != j:
-                (x2,y2,z2) = points[j]
-                dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
-                if dist < cut_off:
-                    weight[(i,j)] = dist
-                    weight[(j,i)] = dist
-                    graph[i].append(j)
+        for j in range(i+1,n):
+            (x2,y2,z2) = points[j]
+            dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+            if dist < cut_off:
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+                graph[i].append(j)
+                graph[j].append(i)
     return graph, weight
 
 def graph_cube4_al(n):
@@ -105,12 +106,12 @@ def graph_cube4_al(n):
         points[i] = (w,x,y,z)
     for i in range(n):
         (w1,x1,y1,z1) = points[i]
-        for j in range(i, n):
-            if i != j:
-                (w2,x2,y2,z2) = points[j]
-                dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
-                if dist < cut_off:
-                    weight[(i,j)] = dist
-                    weight[(j,i)] = dist
-                    graph[i].append(j)
+        for j in range(i+1, n):
+            (w2,x2,y2,z2) = points[j]
+            dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+            if dist < cut_off:
+                weight[(i,j)] = dist
+                weight[(j,i)] = dist
+                graph[i].append(j)
+                graph[j].append(i)
     return graph, weight

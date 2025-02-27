@@ -1,12 +1,14 @@
 import matplotlib.pyplot as plt
 import time
-import numpy as np
 import graphs as gs
 import algorithms as algs
 import math
+import graphs_adjlist as gal
 
 graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube_faster, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
 alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
+graph_fxns_al = {0: gal.graph_basic_al, 1: gal.hypercube_al, 2: gal.uniformly_al, 3: gal.graph_cube3_al, 4: gal.graph_cube4_al}
+alg_choice_al = {0: algs.prims_al, 1: algs.kruskals_al}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
     type_graph = graph_fxns[dimension]
@@ -61,10 +63,14 @@ def run(alg, type_graph, ns, numb_times):
 def compare_graphs(alg_choice):
     n = 100
     t = 20
-    slow = run(algs.prims, gs.graph_cube3_faster, n, t)
-    fast = run(alg_choice, gs.graph_cube3_faster, n, t)
-    plt.scatter(*zip(*slow), c='b') 
-    plt.scatter(*zip(*fast), c='r') 
+    fast = run(algs.prims_al, gal.graph_basic_al, n, t)
+    slow = run(algs.prims_adj_list, gs.graph_basic, n, t)
+    slow1 =run(algs.kruskals, gs.graph_basic, n, t)
+    fast1 =run(algs.kruskals_al, gal.graph_basic_al, n, t)
+    #plt.scatter(*zip(*slow), c='b') 
+    plt.scatter(*zip(*fast), c='r')
+    #plt.scatter(*zip(*slow1), c='y') 
+    plt.scatter(*zip(*fast1), c='g')  
     plt.xlabel('number of vertices')
     plt.ylabel('Speed of Alg')
     plt.title(f"Kruskals speed for dimension 0")
