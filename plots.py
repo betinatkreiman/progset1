@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import time
 import graphs as gs
 import algorithms as algs
@@ -8,7 +8,7 @@ import graphs_adjlist as gal
 graph_fxns = {0: gs.graph_basic_faster, 1: gs.hypercube_faster, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
 alg_choice = {0: algs.prims_adj_list, 1: algs.kruskals}
 graph_fxns_al = {0: gal.graph_basic_al, 1: gal.hypercube_al, 2: gal.uniformly_al, 3: gal.graph_cube3_al, 4: gal.graph_cube4_al}
-alg_choice_al = {0: algs.prims_al, 1: algs.kruskals_al}
+alg_choice_al = {1: algs.prims_al, 0: algs.kruskals_al}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
     type_graph = graph_fxns[dimension]
