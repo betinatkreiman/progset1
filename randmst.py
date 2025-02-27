@@ -11,8 +11,6 @@ alg_flag = int(alg_flag_s)
 numpoints = int(numpoints_s)
 numtrials = int(numtrials_s)
 dimension = int(dimension_s)
-if dimension != 0:
-  raise ValueError("ignore")
 
 def avg_weight(alg_flag, dim, n, trials):
   algorithm = ps.alg_choice[alg_flag]
