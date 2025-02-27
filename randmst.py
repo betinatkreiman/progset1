@@ -13,14 +13,14 @@ numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
 def avg_weight(alg_flag, dim, n, trials):
-  algorithm = ps.alg_choice[alg_flag]
-  type_graph = ps.graph_fxns[dim]
+  # algorithm = ps.alg_choice_no[alg_flag]
+  type_graph = ps.graph_fxns_no_g[dim]
   avg = 0
   for _ in range(trials):
     g,w = type_graph(n)
-    _, _, mstweight, _ = algorithm(g,w,0)
-    if mstweight == float('inf'):
-      continue
+    _, _, mstweight, _ = algs.kruskals_no_g(g,w,0)
+    # if mstweight == float('inf'):
+    #  continue
     avg += mstweight
   return (avg / trials)
 

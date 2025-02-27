@@ -6,14 +6,14 @@ import math
 import graphs_adjlist as gal
 
 graph_fxns_original = {0: gs.graph_basic_faster, 1: gs.hypercube_faster, 2: gs.uniformly_faster, 3: gs.graph_cube3_faster, 4: gs.graph_cube4_faster}
-alg_choice_original = {0: algs.prims_adj_list, 1: algs.kruskals}
+alg_choice_original = {1: algs.prims_adj_list, 0: algs.kruskals}
 
 graph_fxns = {0: gal.graph_basic_al, 1: gal.hypercube_al, 2: gal.uniformly_al, 3: gal.graph_cube3_al, 4: gal.graph_cube4_al}
 alg_choice = {1: algs.prims_al, 0: algs.kruskals_al}
 
 graph_fxns_no_w = {0: gal.graph_basic_no_w, 1: gal.hypercube_no_w, 2: gal.uniformly_no_w, 3: gal.graph_cube3_no_w, 4: gal.graph_cube4_no_w}
-graph_fxns_no_wk = {0: gal.graph_basic_no_wk, 1: gal.hypercube_no_wk, 2: gal.uniformly_no_wk, 3: gal.graph_cube3_no_wk, 4: gal.graph_cube4_no_wk}
-alg_choice_no_w = {0: algs.prims_no_w, 1: algs.kruskals_no_w}
+graph_fxns_no_g = {0: gal.graph_basic_no_g, 1: gal.hypercube_no_g, 2: gal.uniformly_no_g, 3: gal.graph_cube3_no_g, 4: gal.graph_cube4_no_g}
+alg_choice_no = {0: algs.kruskals_no_g, 1: algs.prims_no_w}
 
 def max_edge_weight(alg_flag, dimension, n, trials):
     algorihtm = alg_choice[alg_flag]

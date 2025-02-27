@@ -29,14 +29,13 @@ def hypercube_al(n):
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
         for j in range(i+1,n):
-                if i != j:
             #print(abs(i - j))
-                    w = np.random.uniform(0, 1)
-                    if w < cut_off:
-                        if math.log(abs(i - j), 2).is_integer():
-                            edges[(i,j)] = w
-                            graph[i].append(j)
-                            graph[j].append(i)
+                w = np.random.uniform(0, 1)
+                if w < cut_off:
+                    if math.log(abs(i - j), 2).is_integer():
+                        edges[(i,j)] = w
+                        graph[i].append(j)
+                        graph[j].append(i)
     return graph, edges
 
 def uniformly_al(n):
@@ -93,15 +92,24 @@ def graph_cube4_al(n):
     weight = {}
     points = np.zeros((n,4))
     cut_off = 1.7/(n**(1/4))
-    # save points
-    for i in range(n):
-        w = np.random.uniform(0, 1)
-        x = np.random.uniform(0, 1)
-        y = np.random.uniform(0, 1)
-        z = np.random.uniform(0, 1)
-        points[i] = (w,x,y,z)
     # make graph
-    for i in range(n):
+    w1 = np.random.uniform(0, 1)
+    x1 = np.random.uniform(0, 1)
+    y1 = np.random.uniform(0, 1)
+    z1 = np.random.uniform(0, 1)
+    points[0] = (w1,x1,y1,z1)
+    for j in range(1, n):
+        w2 = np.random.uniform(0, 1)
+        x2 = np.random.uniform(0, 1)
+        y2 = np.random.uniform(0, 1)
+        z2 = np.random.uniform(0, 1)
+        points[j] = (w2,x2,y2,z2)
+        dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+        if dist < cut_off:
+            weight[(0,j)] = dist
+            graph[0].append(j)
+            graph[j].append(0)
+    for i in range(1,n):
         (w1,x1,y1,z1) = points[i]
         for j in range(i+1, n):
             (w2,x2,y2,z2) = points[j]
@@ -111,7 +119,9 @@ def graph_cube4_al(n):
                 graph[i].append(j)
                 graph[j].append(i)
     return graph, weight
-
+'''
+3000=n:5.96318793296814,5.982176065444946,5.874528884887695
+'''
 def graph_basic_stat(n):
     graph = [[] for _ in range(n)]
     weight = {}
@@ -237,12 +247,9 @@ def graph_cube4_no_w(n):
                 graph[j].append((i,dist))
     return graph, n
 
-def graph_basic_no_wk(n):
-    # input: int n (number of vertices)
-    # output: adj. list of graph with some edges cut, 
-    #         edges as tuple (target, weight)
-    #         weight chosen uniformly at random in [0,1]
-    graph = []
+def graph_basic_no_g(n):
+    # output: number of vertices and weights dict
+    weight = {}
     # decide edges to ignore
     cut_off = float('inf')
     if n > 3:
@@ -252,24 +259,25 @@ def graph_basic_no_wk(n):
         for edge in range(v+1,n):
             w = random.uniform(0, 1)
             if w < cut_off:
-                graph.append(((v,edge), w))
-    return graph, n
+                weight[(v,edge)] = w
+    return n, weight
 
-def hypercube_no_wk(n):
-    graph = []
+def hypercube_no_g(n):
+    # output: number of vertices and weights dict
+    weight = {}
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
         for j in range(i+1,n):
-                if i != j:
             #print(abs(i - j))
-                    w = np.random.uniform(0, 1)
-                    if w < cut_off:
-                        if math.log(abs(i - j), 2).is_integer():
-                            graph.append(((i,j),w))
-    return graph, n
+                w = np.random.uniform(0, 1)
+                if w < cut_off:
+                    if math.log(abs(i - j), 2).is_integer():
+                        weight[(i,j)] = w
+    return n, weight
 
-def uniformly_no_wk(n):
-    graph = []
+def uniformly_no_g(n):
+    # output: number of vertices and weights dict
+    weight = {}
     points = np.zeros((n,2))
     # remove large edges
     cut_off = 3/(n**(1/2))
@@ -283,13 +291,12 @@ def uniformly_no_wk(n):
             x2,y2 = points[j]
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
             if dist < cut_off:
-                graph.append(((i,j),dist))
-    return graph, n
+                weight[(i,j)] = dist
+    return n, weight
                                 
-def graph_cube3_no_wk(n):
-    # input: int n (number of vertices)
-    # output: adj. matrix of graph, dict of weights
-    graph = []
+def graph_cube3_no_g(n):
+    # output: number of vertices and weights dict
+    weight = {}
     points = np.zeros((n,3))
     # decide edges to delete
     cut_off = 2.2/(2**(math.log(n,8)))
@@ -306,28 +313,34 @@ def graph_cube3_no_wk(n):
             (x2,y2,z2) = points[j]
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
-                graph.append(((i,j),dist))
-    return graph, n
+                weight[(i,j)] = dist
+    return n, weight
 
-def graph_cube4_no_wk(n):
-    # input: int n (number of vertices)
-    # output: adj. matrix of graph, dict of weights
-    graph = []
+def graph_cube4_no_g(n):
+    # output: number of vertices and weights dict
+    weight = {}
     points = np.zeros((n,4))
-    cut_off = 2/(n**(1/4))
-    # save points
-    for i in range(n):
-        w = np.random.uniform(0, 1)
-        x = np.random.uniform(0, 1)
-        y = np.random.uniform(0, 1)
-        z = np.random.uniform(0, 1)
-        points[i] = (w,x,y,z)
+    cut_off = 1.7/(n**(1/4))
     # make graph
-    for i in range(n):
+    w1 = np.random.uniform(0, 1)
+    x1 = np.random.uniform(0, 1)
+    y1 = np.random.uniform(0, 1)
+    z1 = np.random.uniform(0, 1)
+    points[0] = (w1,x1,y1,z1)
+    for j in range(1, n):
+        w2 = np.random.uniform(0, 1)
+        x2 = np.random.uniform(0, 1)
+        y2 = np.random.uniform(0, 1)
+        z2 = np.random.uniform(0, 1)
+        points[j] = (w2,x2,y2,z2)
+        dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
+        if dist < cut_off:
+            weight[(0,j)] = dist
+    for i in range(1,n):
         (w1,x1,y1,z1) = points[i]
         for j in range(i+1, n):
             (w2,x2,y2,z2) = points[j]
             dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
-                graph.append(((i,j),dist))
-    return graph, n
+                weight[(i,j)] = dist
+    return n, weight
