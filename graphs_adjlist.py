@@ -92,7 +92,7 @@ def graph_cube4_al(n):
     graph = [[] for _ in range(n)]
     weight = {}
     points = np.zeros((n,4))
-    cut_off = 2/(n**(1/4))
+    cut_off = 1.7/(n**(1/4))
     # save points
     for i in range(n):
         w = np.random.uniform(0, 1)

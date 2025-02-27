@@ -13,20 +13,22 @@ numtrials = int(numtrials_s)
 dimension = int(dimension_s)
 
 def avg_weight(alg_flag, dim, n, trials):
-  algorithm = ps.alg_choice_no_w[alg_flag]
-  type_graph = ps.graph_fxns_no_w[dim]
+  algorithm = ps.alg_choice[alg_flag]
+  type_graph = ps.graph_fxns[dim]
   avg = 0
   for _ in range(trials):
     g,w = type_graph(n)
     _, _, mstweight, _ = algorithm(g,w,0)
+    if mstweight == float('inf'):
+      continue
     avg += mstweight
   return (avg / trials)
 
-# ps.compare_graphs()
+ps.compare_graphs()
 # ps.max_edge_plot(alg_flag, dimension, numtrials)
-avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
+# avg = avg_weight(alg_flag, dimension, numpoints, numtrials)
 # avg2 = avg_weight(alg_flag, 5, numpoints, numtrials)
-print(avg, numpoints, numtrials, dimension)
+# print(avg, numpoints, numtrials, dimension)
 # print(avg2, numpoints, numtrials, dimension)
 
 '''
