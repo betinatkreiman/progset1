@@ -17,9 +17,9 @@ def avg_weight(alg_flag, dim, n, trials):
   type_graph = ps.graph_fxns[dim]
   avg = 0
   for _ in range(trials):
-    g, w = type_graph(n)
     _, _, mstweight, _ = algorithm(g,w,0)
     avg += mstweight
+
   return (avg / trials)
 # ps.compare_graphs(ps.alg_choice[alg_flag])
 # ps.max_edge_plot(alg_flag, dimension, numtrials)
@@ -39,7 +39,7 @@ kruskals: (generally faster than prims, but only once edges are cut from complet
 prims:
   basic: 4096
   hyper: 4096 
-  2d: 2048, 4096
-  3d: 2048, 4096
+  2d: 4096
+  3d: 4096
   4d: 2048, 4096
 '''
