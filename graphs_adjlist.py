@@ -25,22 +25,23 @@ def graph_basic_al(n):
     return graph, weight
 
 def hypercube_al(n):
-    graph = np.zeros((n, n))
+    graph = [[] for _ in range(n)]
     edges = {}
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
-        for j in range(i+1, n):
+        for j in range(n):
+                if i != j:
             #print(abs(i - j))
-                w = np.random.uniform(0, 1)
-                if w < cut_off:
-                    if math.log(abs(i - j), 2).is_integer():
-                        edges[(i,j)] = w
-                        edges[(j,i)] = w
-                        graph[i][j] = 1
-                        graph[j][i] = 1
+                    w = np.random.uniform(0, 1)
+                    if w < cut_off:
+                        if math.log(abs(i - j), 2).is_integer():
+                            edges[(i,j)] = w
+                            edges[(j,i)] = w
+                            graph[i].append(j)
     return graph, edges
+
 def uniformly_al(n):
-    graph = np.zeros((n, n))
+    graph = [[]for _ in range(n)]
     weight = {}
     points = np.zeros((n,2))
     # remove large edges
@@ -58,14 +59,13 @@ def uniformly_al(n):
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                    graph[i][j] = 1
-                    graph[j][i] = 1
+                    graph[i].append(j)
     return graph, weight
                                 
 def graph_cube3_al(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph, dict of weights
-    graph = np.zeros((n, n))
+    graph = [[] for _ in range(n)]
     weight = {}
     points = np.zeros((n,3))
     # decide edges to delete
@@ -79,21 +79,20 @@ def graph_cube3_al(n):
         points[i] = (x,y,z)
     for i in range(n):
         (x1,y1,z1) = points[i]
-        for j in range(i, n):
+        for j in range(n):
             if i != j:
                 (x2,y2,z2) = points[j]
                 dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                    graph[i][j] = 1
-                    graph[j][i] = 1
+                    graph[i].append(j)
     return graph, weight
 
 def graph_cube4_al(n):
     # input: int n (number of vertices)
     # output: adj. matrix of graph, dict of weights
-    graph = np.zeros((n, n))
+    graph = [[] for _ in range(n)]
     weight = {}
     points = np.zeros((n,4))
     cut_off = 2/(2**(math.log(n,16)))
@@ -113,6 +112,5 @@ def graph_cube4_al(n):
                 if dist < cut_off:
                     weight[(i,j)] = dist
                     weight[(j,i)] = dist
-                    graph[i][j] = 1
-                    graph[j][i] = 1
+                    graph[i].append(j)
     return graph, weight
