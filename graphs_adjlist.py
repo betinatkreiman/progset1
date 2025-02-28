@@ -269,9 +269,10 @@ def hypercube_no_g(n):
     for i in range(n):
         j = 0
         while ((i + pow(2,j)) < n):
+            vertex = i + pow(2,j)
             w = np.random.uniform(0, 1)
             if w < cut_off:
-                weight.append((w, (i,j)))
+                weight.append((w, (i,vertex)))
             j += 1
     return n, weight
 
@@ -280,7 +281,7 @@ def uniformly_no_g(n):
     weight = []
     points = np.zeros((n,2))
     # remove large edges
-    cut_off = 3/(n**(1/2))
+    cut_off = 3.5/(n**(1/2))
     for i in range(n):
         x = np.random.uniform(0, 1)
         y = np.random.uniform(0, 1)
