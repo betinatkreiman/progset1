@@ -183,11 +183,11 @@ def kruskals_no_g(n,w, nill):
   # create set for each vertex; assuming vertices are numbered 0 to n-1
   dus = ds.DisjointUnionSets(n)
   # sort edges by weight
-  sort_w = {k: v for k, v in sorted(w.items(), key=lambda item: item[1])}
-  for (i,j) in sort_w:
+  sort_w = sorted(w, key=lambda tup: tup[0])
+  for (weight, (i,j)) in sort_w:
     if dus.find(i) != dus.find(j):
       X.add((i,j))
       dus.union(i,j)
-      mstweight += sort_w[(i,j)]
-      last_edge = (i,j)
-  return nill, X, mstweight, sort_w[last_edge]
+      mstweight += weight
+      last_weight = weight
+  return nill, X, mstweight, last_weight

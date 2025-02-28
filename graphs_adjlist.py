@@ -249,7 +249,7 @@ def graph_cube4_no_w(n):
 
 def graph_basic_no_g(n):
     # output: number of vertices and weights dict
-    weight = {}
+    weight = []
     # decide edges to ignore
     cut_off = float('inf')
     if n > 3:
@@ -259,25 +259,25 @@ def graph_basic_no_g(n):
         for edge in range(v+1,n):
             w = random.uniform(0, 1)
             if w < cut_off:
-                weight[(v,edge)] = w
+                weight.append((w, (v,edge)))
     return n, weight
 
 def hypercube_no_g(n):
     # output: number of vertices and weights dict
-    weight = {}
+    weight = []
     cut_off = 0.45 + 1/(n**(1/4))
     for i in range(n):
-        for j in range(i+1,n):
-            #print(abs(i - j))
-                w = np.random.uniform(0, 1)
-                if w < cut_off:
-                    if math.log(abs(i - j), 2).is_integer():
-                        weight[(i,j)] = w
+        j = 0
+        while ((i + pow(2,j)) < n):
+            w = np.random.uniform(0, 1)
+            if w < cut_off:
+                weight.append((w, (i,j)))
+            j += 1
     return n, weight
 
 def uniformly_no_g(n):
     # output: number of vertices and weights dict
-    weight = {}
+    weight = []
     points = np.zeros((n,2))
     # remove large edges
     cut_off = 3/(n**(1/2))
@@ -291,12 +291,12 @@ def uniformly_no_g(n):
             x2,y2 = points[j]
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2)
             if dist < cut_off:
-                weight[(i,j)] = dist
+                weight.append((dist, (i,j)))
     return n, weight
                                 
 def graph_cube3_no_g(n):
     # output: number of vertices and weights dict
-    weight = {}
+    weight = []
     points = np.zeros((n,3))
     # decide edges to delete
     cut_off = 2.2/(2**(math.log(n,8)))
@@ -313,12 +313,12 @@ def graph_cube3_no_g(n):
             (x2,y2,z2) = points[j]
             dist = np.sqrt((x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
-                weight[(i,j)] = dist
+                weight.append((dist, (i,j)))
     return n, weight
 
 def graph_cube4_no_g(n):
     # output: number of vertices and weights dict
-    weight = {}
+    weight = []
     points = np.zeros((n,4))
     cut_off = 1.7/(n**(1/4))
     # make graph
@@ -335,12 +335,12 @@ def graph_cube4_no_g(n):
         points[j] = (w2,x2,y2,z2)
         dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
         if dist < cut_off:
-            weight[(0,j)] = dist
+            weight.append((dist, (0,j)))
     for i in range(1,n):
         (w1,x1,y1,z1) = points[i]
         for j in range(i+1, n):
             (w2,x2,y2,z2) = points[j]
             dist = np.sqrt((w2-w1)**2+(x2-x1)**2+(y2-y1)**2+(z2-z1)**2)
             if dist < cut_off:
-                weight[(i,j)] = dist
+                weight.append((dist, (i,j)))
     return n, weight
