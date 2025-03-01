@@ -27,7 +27,7 @@ def max_edge_weight(alg_flag, dimension, n, trials):
     return max
 
 def max_edge_plot(alg_flag, dimension, trials):
-    for a in range(4,200):
+    for a in range(1,12):
         n = a
         # change to do by powers of 2
         # this plots the max edge weight in the mst

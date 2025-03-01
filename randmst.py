@@ -1,5 +1,6 @@
 import sys
 import graphs as gs
+import graphs_adjlist as gal
 import algorithms as algs
 import plots as ps
 import time
